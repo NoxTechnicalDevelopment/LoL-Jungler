@@ -1,0 +1,32 @@
+import pyautogui
+from pynput import keyboard
+
+# substitution values
+xsub = 448
+ysub = 147
+
+def on_press(key):
+    if key == keyboard.KeyCode(char='q'):
+        # get the position of the cursor
+        x, y = pyautogui.position()
+
+        # subtract the x and y values by "xsub" and "ysub" respectively
+        x -= xsub
+        y -= ysub
+
+        # divide the new x by 1920 and the new y by 1080
+        x /= 1024
+        y /= 768
+
+        # print both values
+        print(f"X: {x}, Y: {y}")
+
+def on_release(key):
+    # stop the listener when 'esc' is pressed
+    if key == keyboard.Key.esc:
+        return False
+
+# start the keyboard listener
+while True:
+    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+        listener.join()
